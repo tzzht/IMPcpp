@@ -107,11 +107,8 @@
 
 %%
 process: { cout << "*** PARSER BEGIN ***" << endl; }
-    | statement { 
-        cout << "*** PARSER BEGIN ***" << endl;
-        driver.Init($1);
-        cout << "*** PARSER END ***" << endl;
-        }
+    | statement { driver.Init($1); }
+    | COBEGIN statement CONCUR statement COEND { driver.Init($2, $4); }
     ;
     
 aexp:
@@ -133,7 +130,6 @@ bexp:
 statement:
     SKIP SEMICOLON { $$ = new tzzht::Statement(tzzht::Statement::StatementType::Skip); }
     | IDENTIFER ASSIGNMENT aexp SEMICOLON { 
-            tzzht::Identifer::IdentiferEvaluation($1, $3);
             $$ = new tzzht::Statement(tzzht::Statement::StatementType::Assignment,$1, $3); }
     | statement SEMICOLON statement { $$ = new tzzht::Statement(tzzht::Statement::StatementType::Sequential, $1, $3); }
     | WAIT LPAREN bexp RPAREN SEMICOLON { $$ = new tzzht::Statement(tzzht::Statement::StatementType::Wait, $3); }

@@ -1,3 +1,10 @@
+/* 
+ * 实现相关函数
+ * File:   imp.cpp
+ * Author: tzzht
+ *
+ * Created on Oct. 15, 2021, 16:54
+ */
 #include "imp.h"
 
 #include <iostream>
@@ -5,43 +12,57 @@
 
 using namespace tzzht;
 
-
-
-
-//int global_pc = 0;
-//int global_pc_prime = -1;
-int global_label = 1;
-
-std::map<char, int> Identifer::char_to_int = Identifer::CreateChar_to_int();
-std::map<int, char> Identifer::int_to_char = Identifer::CreateInt_to_char();
-std::vector<int> Identifer::all_identifer_value = Identifer::CreateAll_identifer_value();
-
-int Identifer::identifer_num = 0;
-
+int global_label = 0;
 std::vector<FirstOrderFormula> FirstOrderFormula::all_first_order_formula = FirstOrderFormula::CreateAll_first_order_formula();
+std::set<ConcurrentFirstOrderFormula> ConcurrentFirstOrderFormula::all_concurrent_first_order_formula = ConcurrentFirstOrderFormula::CreateAll_concurrent_first_order_formula();
+std::set<State> State::all_states = State::CreateAll_states();
+std::set<ConcurrentState> ConcurrentState::all_concurrent_states = ConcurrentState::CreateAll_concurrent_states();
+
+std::vector<Transition> Transition::all_transitions = Transition::CreateAll_transitions();
+std::vector<ConcurrentTransition> ConcurrentTransition::all_concurrent_transitions = ConcurrentTransition::CreateAll_concurrent_transitions();
+
+std::map<char, int> Identifer::all_identifer = Identifer::CreateAll_identifer();
+
+
+
+// std::map<char, int> Identifer::char_to_int = Identifer::CreateChar_to_int();
+// std::map<int, char> Identifer::int_to_char = Identifer::CreateInt_to_char();
+// std::vector<int> Identifer::all_identifer_value = Identifer::CreateAll_identifer_value();
+
+// int Identifer::identifer_num = 0;
+
 
 int Identifer::IdentiferValue(char identifer)
 {
-    return all_identifer_value[char_to_int[identifer]];
+   // return all_identifer_value[char_to_int[identifer]];
+   if(all_identifer.find(identifer) == all_identifer.end())
+   {
+       std::cout << "error" << std::endl;
+       return -1;
+   }
+   else
+   {
+       return all_identifer[identifer];
+   }
 }
 
 void Identifer::IdentiferEvaluation(char identifer, AVar *avar)
 {
-    
-    if(char_to_int.find(identifer) == char_to_int.end())//如果这个identifier是新的
-    {
+    // if(char_to_int.find(identifer) == char_to_int.end())//如果这个identifier是新的
+    // {
         
-        char_to_int[identifer] = identifer_num;
-        int_to_char[identifer_num] = identifer;
+    //     char_to_int[identifer] = identifer_num;
+    //     int_to_char[identifer_num] = identifer;
         
-        all_identifer_value.push_back(avar->value());
-        identifer_num ++;
+    //     all_identifer_value.push_back(avar->value());
+    //     identifer_num ++;
         
-    }
-    else//如果这个identifer已经有了
-    {
-        all_identifer_value[char_to_int[identifer]] = avar->value();
-    }
+    // }
+    // else//如果这个identifer已经有了
+    // {
+    //     all_identifer_value[char_to_int[identifer]] = avar->value();
+    // }
+    all_identifer[identifer] = avar->value();
 }
 
 
@@ -131,16 +152,16 @@ int AVar::value()
         
         break;
     case Variable:
-        ret = Identifer::IdentiferValue(m_identifer_)%3;
+        ret = (Identifer::IdentiferValue(m_identifer_))%3;
         break;
     case Plus:
-        ret = m_left_->value() + m_right_->value()%3;
+        ret = (m_left_->value() + m_right_->value())%3;
         break;
     case Minus:
-        ret = m_left_->value() - m_right_->value()%3;
+        ret = (m_left_->value() - m_right_->value())%3;
         break;
     case Times:
-        ret = m_left_->value() * m_right_->value()%3;
+        ret = (m_left_->value() * m_right_->value())%3;
         break;
     default:
         std::cout << "error" << std::endl;
@@ -348,7 +369,7 @@ void Statement::PrintLabeledProgram()
         std::cout << "wait(" << m_bpointer_->tostring() << ");" << std::endl;
         break;
     case Conditional:
-        std::cout << "if" << m_bpointer_->tostring() << "then" << std::endl;
+        std::cout << "if " << m_bpointer_->tostring() << " then" << std::endl;
         std::cout << "l" << m_label1_ << ":" << std::endl;
         m_left_->PrintLabeledProgram();
         std::cout << "else" << std::endl;
@@ -357,7 +378,7 @@ void Statement::PrintLabeledProgram()
         std::cout << "endif;" << std::endl;
         break;
     case While:
-        std::cout << "while" << m_bpointer_->tostring() << "do" << std::endl;
+        std::cout << "while " << m_bpointer_->tostring() << " do" << std::endl;
         std::cout << "l" << m_label1_ << ":" << std::endl;
         m_left_->PrintLabeledProgram();
         std::cout << "enddo;" << std::endl;
@@ -440,14 +461,14 @@ std::string FirstOrderFormula::tostring() const
     switch (m_firstorderformulatype_)
     {
     case Skip:
-        ts << "pc = l" << m_pc_ << " and " << "pc' = l" << m_pc_prime_ << " and same(V)";
+        ts << "pc = " << m_pc_ << " and " << "pc' = " << m_pc_prime_ << " and same(V)";
         break;
     case Assignment:
-        ts << "pc = l" << m_pc_ << " and " << "pc' = l" << m_pc_prime_ << " and " << m_identifer_ << " = ";
+        ts << "pc = " << m_pc_ << " and " << "pc' = " << m_pc_prime_ << " and " << m_identifer_ << " = ";
         ts << m_apointer_->tostring() << " and same(V\\\{" << m_identifer_ << "\})";
         break;
     case Branch:
-        ts << "pc = l" << m_pc_ << " and " << "pc' = l" << m_pc_prime_ << " and " << m_bpointer_->tostring() << " and same(V)";
+        ts << "pc = " << m_pc_ << " and " << "pc' = " << m_pc_prime_ << " and " << m_bpointer_->tostring() << " and same(V)";
         break;
     default:
         std::cout << "error" << std::endl;
@@ -462,4 +483,216 @@ void FirstOrderFormula::PrintAllFirstOrderFormula()
     {
         std::cout << it->tostring() << std::endl;
     }
+}
+
+std::vector<FirstOrderFormula> FirstOrderFormula::GetFOFsStartFromPC(int pc)
+{
+    std::vector<FirstOrderFormula> ret;
+    for(int i = 0; i < all_first_order_formula.size(); i ++)
+    {
+        if(all_first_order_formula[i].m_pc_ == pc)
+        {
+            ret.push_back(all_first_order_formula[i]);
+        }
+    }
+    return ret;
+}
+
+
+ConcurrentFirstOrderFormula::ConcurrentFirstOrderFormula() :
+    m_concurrentfirstorderformulatype_(),
+    m_pc1_(),
+    m_pc1_prime_(),
+    m_pc2_(),
+    m_pc2_prime_(),
+    m_identifer_(),
+    m_apointer_(),
+    m_bpointer_() {}
+
+ConcurrentFirstOrderFormula::ConcurrentFirstOrderFormula(FirstOrderFormula firstorderformula, int pc2)
+{
+    m_concurrentfirstorderformulatype_ = (ConcurrentFirstOrderFormulaType)firstorderformula.m_firstorderformulatype_;
+    m_pc1_ = firstorderformula.m_pc_;
+    m_pc1_prime_ = firstorderformula.m_pc_prime_;
+    m_pc2_ = pc2;
+    m_pc2_prime_ = pc2;
+    m_identifer_ = firstorderformula.m_identifer_;
+    m_apointer_ = firstorderformula.m_apointer_;
+    m_bpointer_ = firstorderformula.m_bpointer_;
+}
+ConcurrentFirstOrderFormula::ConcurrentFirstOrderFormula(int pc1, FirstOrderFormula firstorderformula)
+{
+    m_concurrentfirstorderformulatype_ = (ConcurrentFirstOrderFormulaType)firstorderformula.m_firstorderformulatype_;
+    m_pc1_ = pc1;
+    m_pc1_prime_ = pc1;
+    m_pc2_ = firstorderformula.m_pc_;
+    m_pc2_prime_ = firstorderformula.m_pc_prime_;
+    m_identifer_ = firstorderformula.m_identifer_;
+    m_apointer_ = firstorderformula.m_apointer_;
+    m_bpointer_ = firstorderformula.m_bpointer_;
+}
+
+
+std::string ConcurrentFirstOrderFormula::tostring() const
+{
+    std::stringstream ts;
+    switch (m_concurrentfirstorderformulatype_)
+    {
+    case Skip:
+        ts << "pc1 = " << m_pc1_ << " and " << "pc1' = " << m_pc1_prime_ << " and " << "pc2 = " << m_pc2_ << " and " << "pc2' = " << m_pc2_prime_ << " and same(V)";
+        break;
+    case Assignment:
+        ts << "pc1 = " << m_pc1_ << " and " << "pc1' = " << m_pc1_prime_ << " and " << "pc2 = " << m_pc2_ << " and " << "pc2' = " << m_pc2_prime_ << " and " << m_identifer_ << " = ";
+        ts << m_apointer_->tostring() << " and same(V\\\{" << m_identifer_ << "\})";
+        break;
+    case Branch:
+        ts << "pc1 = " << m_pc1_ << " and " << "pc1' = " << m_pc1_prime_ << " and " << "pc2 = " << m_pc2_ << " and " << "pc2' = " << m_pc2_prime_ << " and " << m_bpointer_->tostring() << " and same(V)";
+        break;
+    default:
+        std::cout << "error" << std::endl;
+        break;
+    }
+    return ts.str();
+}
+
+void ConcurrentFirstOrderFormula::PrintAllConcurrentFirstOrderFormula()
+{
+    for(auto it = all_concurrent_first_order_formula.begin(); it != all_concurrent_first_order_formula.end(); it ++)
+    {
+        std::cout << it->tostring() << std::endl;
+    }
+}
+
+void ConcurrentFirstOrderFormula::FirstOrderFormulaIntersection(std::vector<FirstOrderFormula> all_fof1, std::vector<FirstOrderFormula> all_fof2)
+{
+    // for(int i = 0; i < all_fof1.size(); i ++) std::cout << all_fof1[i].tostring() << std::endl;
+    // std::cout << std::endl;
+    // for(int i = 0; i < all_fof2.size(); i ++) std::cout << all_fof2[i].tostring() << std::endl;
+    for(int i = 0; i < all_fof1.size(); i ++)
+    {
+        for(int j = 0; j < all_fof2.size(); j ++)
+        {
+            FirstOrderFormula fof1 = all_fof1[i];
+            FirstOrderFormula fof2 = all_fof2[j];
+            ConcurrentFirstOrderFormula::all_concurrent_first_order_formula.insert(ConcurrentFirstOrderFormula(fof1, fof2.m_pc_));
+            ConcurrentFirstOrderFormula::all_concurrent_first_order_formula.insert(ConcurrentFirstOrderFormula(fof1.m_pc_, fof2));
+        }
+    }
+}
+
+std::vector<ConcurrentFirstOrderFormula> ConcurrentFirstOrderFormula::GetCFOFsStartFromPCs(int pc1, int pc2)
+{
+    std::vector<ConcurrentFirstOrderFormula> ret;
+    for(auto it = all_concurrent_first_order_formula.begin(); it != all_concurrent_first_order_formula.end(); it ++)
+    {
+        if(it->m_pc1_ == pc1 && it->m_pc2_ == pc2)
+        {
+            ret.push_back(*it);
+        }
+    }
+    return ret;
+}
+    
+
+
+State::State() :
+    m_pc_(),
+    m_all_identifer_() {}
+
+
+State::State(int pc, std::map<char, int> all_identifer)
+{
+    m_pc_ = pc;
+    m_all_identifer_ = all_identifer;
+}
+
+std::string State::tostring() const
+{
+    std::stringstream ts;
+    ts << m_pc_ << std::endl;
+    for(auto it = m_all_identifer_.begin(); it != m_all_identifer_.end(); it ++)
+    {
+        ts << ", " << it->first << " = " << it->second; 
+    }
+    return ts.str();
+}
+
+// void State::eval(char identifer, AVar *apointer)
+// {
+//     m_all_identifer_[identifer] = apointer->value();
+// }
+
+
+ConcurrentState::ConcurrentState() :
+    m_pc1_(),
+    m_pc2_(),
+    m_all_identifer_() {}
+
+
+ConcurrentState::ConcurrentState(int pc1, int pc2, std::map<char, int> all_identifer)
+{
+    m_pc1_ = pc1;
+    m_pc2_ = pc2;
+    m_all_identifer_ = all_identifer;
+}
+
+std::string ConcurrentState::tostring() const
+{
+    std::stringstream ts;
+    ts << m_pc1_ << ", " << m_pc2_;
+    for(auto it = m_all_identifer_.begin(); it != m_all_identifer_.end(); it ++)
+    {
+        ts << ", " << it->first << " = " << it->second; 
+    }
+    return ts.str();
+}
+
+Transition::Transition() :
+    m_left_(),
+    m_right_() {}
+
+Transition::Transition(State left, State right)
+{
+    m_left_ = left;
+    m_right_ = right;
+}
+
+void Transition::PrintAllTransitions()
+{
+    for(int i = 0; i < all_transitions.size(); i ++)
+    {
+        std::cout << all_transitions[i].tostring() << std::endl;
+    }
+}
+
+std::string Transition::tostring() const
+{
+    std::stringstream ts;
+    ts << "(" << m_left_.tostring() << ") -> (" << m_right_.tostring() << ")";
+    return ts.str();
+}
+
+ConcurrentTransition::ConcurrentTransition() :
+    m_left_(),
+    m_right_() {}
+
+ConcurrentTransition::ConcurrentTransition(ConcurrentState left, ConcurrentState right)
+{
+    m_left_ = left;
+    m_right_ = right;
+}
+
+void ConcurrentTransition::PrintAllConcurrentTransition()
+{
+    for(int i = 0; i < all_concurrent_transitions.size(); i ++)
+    {
+        std::cout << all_concurrent_transitions[i].tostring() << std::endl;
+    }
+}
+
+std::string ConcurrentTransition::tostring() const
+{
+    std::stringstream ts;
+    ts << "(" << m_left_.tostring() << ") -> (" << m_right_.tostring() << ")";
+    return ts.str();
 }

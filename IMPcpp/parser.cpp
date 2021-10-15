@@ -692,117 +692,126 @@ namespace  tzzht  {
     break;
 
   case 4:
-#line 118 "parser.y"
-           { yylhs.value.as < tzzht::AVar * > () = new tzzht::AVar(tzzht::AVar::AVarType::Constant, yystack_[0].value.as < int > ()); }
-#line 698 "parser.cpp"
+#line 115 "parser.y"
+                                               {
+        cout << "*** PARSER BEGIN ***" << endl;
+        driver.Init(yystack_[3].value.as < tzzht::Statement * > (), yystack_[1].value.as < tzzht::Statement * > ());
+        cout << "*** PARSER END ***" << endl;
+    }
+#line 702 "parser.cpp"
     break;
 
   case 5:
-#line 119 "parser.y"
-                { yylhs.value.as < tzzht::AVar * > () = new tzzht::AVar(tzzht::AVar::AVarType::Variable, yystack_[0].value.as < char > ()); }
-#line 704 "parser.cpp"
+#line 123 "parser.y"
+           { yylhs.value.as < tzzht::AVar * > () = new tzzht::AVar(tzzht::AVar::AVarType::Constant, yystack_[0].value.as < int > ()); }
+#line 708 "parser.cpp"
     break;
 
   case 6:
-#line 120 "parser.y"
-                     { yylhs.value.as < tzzht::AVar * > () = new tzzht::AVar(tzzht::AVar::AVarType::Plus, yystack_[2].value.as < tzzht::AVar * > (), yystack_[0].value.as < tzzht::AVar * > ()); }
-#line 710 "parser.cpp"
+#line 124 "parser.y"
+                { yylhs.value.as < tzzht::AVar * > () = new tzzht::AVar(tzzht::AVar::AVarType::Variable, yystack_[0].value.as < char > ()); }
+#line 714 "parser.cpp"
     break;
 
   case 7:
-#line 121 "parser.y"
-                      { yylhs.value.as < tzzht::AVar * > () = new tzzht::AVar(tzzht::AVar::AVarType::Minus, yystack_[2].value.as < tzzht::AVar * > (), yystack_[0].value.as < tzzht::AVar * > ()); }
-#line 716 "parser.cpp"
+#line 125 "parser.y"
+                     { yylhs.value.as < tzzht::AVar * > () = new tzzht::AVar(tzzht::AVar::AVarType::Plus, yystack_[2].value.as < tzzht::AVar * > (), yystack_[0].value.as < tzzht::AVar * > ()); }
+#line 720 "parser.cpp"
     break;
 
   case 8:
-#line 122 "parser.y"
-                      { yylhs.value.as < tzzht::AVar * > () = new tzzht::AVar(tzzht::AVar::AVarType::Times, yystack_[2].value.as < tzzht::AVar * > (), yystack_[0].value.as < tzzht::AVar * > ()); }
-#line 722 "parser.cpp"
+#line 126 "parser.y"
+                      { yylhs.value.as < tzzht::AVar * > () = new tzzht::AVar(tzzht::AVar::AVarType::Minus, yystack_[2].value.as < tzzht::AVar * > (), yystack_[0].value.as < tzzht::AVar * > ()); }
+#line 726 "parser.cpp"
     break;
 
   case 9:
-#line 125 "parser.y"
-         { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::TOF, true); }
-#line 728 "parser.cpp"
+#line 127 "parser.y"
+                      { yylhs.value.as < tzzht::AVar * > () = new tzzht::AVar(tzzht::AVar::AVarType::Times, yystack_[2].value.as < tzzht::AVar * > (), yystack_[0].value.as < tzzht::AVar * > ()); }
+#line 732 "parser.cpp"
     break;
 
   case 10:
-#line 126 "parser.y"
-            { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::TOF, false); }
-#line 734 "parser.cpp"
+#line 130 "parser.y"
+         { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::TOF, true); }
+#line 738 "parser.cpp"
     break;
 
   case 11:
-#line 127 "parser.y"
-                      { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::Equal, yystack_[2].value.as < tzzht::AVar * > (), yystack_[0].value.as < tzzht::AVar * > ()); }
-#line 740 "parser.cpp"
+#line 131 "parser.y"
+            { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::TOF, false); }
+#line 744 "parser.cpp"
     break;
 
   case 12:
-#line 128 "parser.y"
-                    { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::LAE, yystack_[2].value.as < tzzht::AVar * > (), yystack_[0].value.as < tzzht::AVar * > ()); }
-#line 746 "parser.cpp"
+#line 132 "parser.y"
+                      { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::Equal, yystack_[2].value.as < tzzht::AVar * > (), yystack_[0].value.as < tzzht::AVar * > ()); }
+#line 750 "parser.cpp"
     break;
 
   case 13:
-#line 129 "parser.y"
-               { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::Not, yystack_[0].value.as < tzzht::BVar * > ()); }
-#line 752 "parser.cpp"
+#line 133 "parser.y"
+                    { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::LAE, yystack_[2].value.as < tzzht::AVar * > (), yystack_[0].value.as < tzzht::AVar * > ()); }
+#line 756 "parser.cpp"
     break;
 
   case 14:
-#line 130 "parser.y"
-                            { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::And, yystack_[2].value.as < tzzht::BVar * > (), yystack_[0].value.as < tzzht::BVar * > ()); }
-#line 758 "parser.cpp"
+#line 134 "parser.y"
+               { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::Not, yystack_[0].value.as < tzzht::BVar * > ()); }
+#line 762 "parser.cpp"
     break;
 
   case 15:
-#line 131 "parser.y"
-                               { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::Or, yystack_[2].value.as < tzzht::BVar * > (), yystack_[0].value.as < tzzht::BVar * > ()); }
-#line 764 "parser.cpp"
+#line 135 "parser.y"
+                            { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::And, yystack_[2].value.as < tzzht::BVar * > (), yystack_[0].value.as < tzzht::BVar * > ()); }
+#line 768 "parser.cpp"
     break;
 
   case 16:
-#line 134 "parser.y"
-                   { yylhs.value.as < tzzht::Statement * > () = new tzzht::Statement(tzzht::Statement::StatementType::Skip); }
-#line 770 "parser.cpp"
+#line 136 "parser.y"
+                               { yylhs.value.as < tzzht::BVar * > () = new tzzht::BVar(tzzht::BVar::BVarType::Or, yystack_[2].value.as < tzzht::BVar * > (), yystack_[0].value.as < tzzht::BVar * > ()); }
+#line 774 "parser.cpp"
     break;
 
   case 17:
-#line 135 "parser.y"
-                                          { 
-            tzzht::Identifer::IdentiferEvaluation(yystack_[3].value.as < char > (), yystack_[1].value.as < tzzht::AVar * > ());
-            yylhs.value.as < tzzht::Statement * > () = new tzzht::Statement(tzzht::Statement::StatementType::Assignment,yystack_[3].value.as < char > (), yystack_[1].value.as < tzzht::AVar * > ()); }
-#line 778 "parser.cpp"
+#line 139 "parser.y"
+                   { yylhs.value.as < tzzht::Statement * > () = new tzzht::Statement(tzzht::Statement::StatementType::Skip); }
+#line 780 "parser.cpp"
     break;
 
   case 18:
-#line 138 "parser.y"
-                                    { yylhs.value.as < tzzht::Statement * > () = new tzzht::Statement(tzzht::Statement::StatementType::Sequential, yystack_[2].value.as < tzzht::Statement * > (), yystack_[0].value.as < tzzht::Statement * > ()); }
-#line 784 "parser.cpp"
+#line 140 "parser.y"
+                                          { 
+            yylhs.value.as < tzzht::Statement * > () = new tzzht::Statement(tzzht::Statement::StatementType::Assignment,yystack_[3].value.as < char > (), yystack_[1].value.as < tzzht::AVar * > ()); }
+#line 787 "parser.cpp"
     break;
 
   case 19:
-#line 139 "parser.y"
-                                        { yylhs.value.as < tzzht::Statement * > () = new tzzht::Statement(tzzht::Statement::StatementType::Wait, yystack_[2].value.as < tzzht::BVar * > ()); }
-#line 790 "parser.cpp"
+#line 142 "parser.y"
+                                    { yylhs.value.as < tzzht::Statement * > () = new tzzht::Statement(tzzht::Statement::StatementType::Sequential, yystack_[2].value.as < tzzht::Statement * > (), yystack_[0].value.as < tzzht::Statement * > ()); }
+#line 793 "parser.cpp"
     break;
 
   case 20:
-#line 140 "parser.y"
-                                                            { yylhs.value.as < tzzht::Statement * > () = new tzzht::Statement(tzzht::Statement::StatementType::Conditional, yystack_[6].value.as < tzzht::BVar * > (), yystack_[4].value.as < tzzht::Statement * > (), yystack_[2].value.as < tzzht::Statement * > ()); }
-#line 796 "parser.cpp"
+#line 143 "parser.y"
+                                        { yylhs.value.as < tzzht::Statement * > () = new tzzht::Statement(tzzht::Statement::StatementType::Wait, yystack_[2].value.as < tzzht::BVar * > ()); }
+#line 799 "parser.cpp"
     break;
 
   case 21:
-#line 141 "parser.y"
+#line 144 "parser.y"
+                                                            { yylhs.value.as < tzzht::Statement * > () = new tzzht::Statement(tzzht::Statement::StatementType::Conditional, yystack_[6].value.as < tzzht::BVar * > (), yystack_[4].value.as < tzzht::Statement * > (), yystack_[2].value.as < tzzht::Statement * > ()); }
+#line 805 "parser.cpp"
+    break;
+
+  case 22:
+#line 145 "parser.y"
                                               { yylhs.value.as < tzzht::Statement * > () = new tzzht::Statement(tzzht::Statement::StatementType::While, yystack_[4].value.as < tzzht::BVar * > (), yystack_[2].value.as < tzzht::Statement * > ()); }
-#line 802 "parser.cpp"
+#line 811 "parser.cpp"
     break;
 
 
-#line 806 "parser.cpp"
+#line 815 "parser.cpp"
 
             default:
               break;
@@ -1073,93 +1082,95 @@ namespace  tzzht  {
   }
 
 
-  const signed char  Parser ::yypact_ninf_ = -21;
+  const signed char  Parser ::yypact_ninf_ = -15;
 
   const signed char  Parser ::yytable_ninf_ = -1;
 
   const signed char
    Parser ::yypact_[] =
   {
-      -1,   -18,   -11,    -9,    39,    39,    31,    19,    41,   -21,
-      39,   -21,   -21,   -21,   -21,    39,    47,    24,   -10,   -21,
-      -1,     1,    27,    42,    41,    41,    41,    41,    41,    39,
-      39,    -1,    -1,    19,   -21,    26,    54,    54,    54,    54,
-      54,    42,    42,     2,    -6,   -21,    -1,    43,    -2,   -21,
-      44,   -21
+      16,    -8,    18,    -3,     4,    55,    55,    30,    23,    58,
+       9,   -15,    55,   -15,   -15,   -15,   -15,    55,    63,    -9,
+     -11,   -15,    18,     3,    18,     1,    65,    58,    58,    58,
+      58,    58,    55,    55,    18,    18,    23,   -15,    28,    27,
+      70,    70,    70,    70,    70,    65,    65,    40,    21,   -15,
+     -15,    18,    32,   -14,   -15,    45,   -15
   };
 
   const signed char
    Parser ::yydefact_[] =
   {
-       2,     0,     0,     0,     0,     0,     0,     3,     0,    16,
-       0,     5,     4,     9,    10,     0,     0,     0,     0,     1,
-       0,     0,     0,    13,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    18,    17,     0,     6,     7,     8,    11,
-      12,    14,    15,     0,     0,    19,     0,     0,     0,    21,
-       0,    20
+       2,     0,     0,     0,     0,     0,     0,     0,     3,     0,
+       0,    17,     0,     6,     5,    10,    11,     0,     0,     0,
+       0,     1,     0,     0,     0,     0,    14,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,    19,    18,     0,     0,
+       7,     8,     9,    12,    13,    15,    16,     0,     0,     4,
+      20,     0,     0,     0,    22,     0,    21
   };
 
   const signed char
    Parser ::yypgoto_[] =
   {
-     -21,   -21,     8,     0,   -20
+     -15,   -15,    26,    -5,    -2
   };
 
   const signed char
    Parser ::yydefgoto_[] =
   {
-      -1,     6,    16,    17,     7
+      -1,     7,    18,    19,     8
   };
 
   const signed char
    Parser ::yytable_[] =
   {
-      33,     8,     1,    29,    30,    18,    24,    25,    26,     9,
-      22,    43,    44,    10,    20,    23,    21,     2,    20,    32,
-       3,    34,    20,     4,    47,    50,    48,     5,    46,    41,
-      42,    19,    36,    37,    38,    39,    40,    29,    30,    20,
-      29,    30,    11,    12,    11,    12,    45,    13,    14,    31,
-      35,    15,    24,    25,    26,    29,    30,    27,    28,    24,
-      25,    26,     0,    49,    51
+      10,    20,    32,    33,    32,    33,    22,    25,    27,    28,
+      29,     9,    26,    55,    32,    33,    34,    11,    35,     1,
+      36,     1,    38,    37,    39,    24,    12,    45,    46,    22,
+      21,     2,    47,    48,     3,    23,     3,     4,     0,     4,
+       5,    22,     5,    22,     6,    49,     6,    50,    22,    53,
+       0,    52,    54,    40,    41,    42,    43,    44,    13,    14,
+      22,    13,    14,    15,    16,    56,    51,    17,    27,    28,
+      29,     0,     0,    30,    31,    27,    28,    29,    32,    33
   };
 
   const signed char
    Parser ::yycheck_[] =
   {
-      20,    19,     3,    13,    14,     5,     5,     6,     7,    20,
-      10,    31,    32,    22,    20,    15,     8,    18,    20,    29,
-      21,    20,    20,    24,    30,    27,    46,    28,    26,    29,
-      30,     0,    24,    25,    26,    27,    28,    13,    14,    20,
-      13,    14,     3,     4,     3,     4,    20,     8,     9,    25,
-      23,    12,     5,     6,     7,    13,    14,    10,    11,     5,
-       6,     7,    -1,    20,    20
+       2,     6,    13,    14,    13,    14,    20,    12,     5,     6,
+       7,    19,    17,    27,    13,    14,    25,    20,    29,     3,
+      22,     3,    24,    20,    23,    16,    22,    32,    33,    20,
+       0,    15,    34,    35,    18,     9,    18,    21,    -1,    21,
+      24,    20,    24,    20,    28,    17,    28,    20,    20,    51,
+      -1,    30,    20,    27,    28,    29,    30,    31,     3,     4,
+      20,     3,     4,     8,     9,    20,    26,    12,     5,     6,
+       7,    -1,    -1,    10,    11,     5,     6,     7,    13,    14
   };
 
   const signed char
    Parser ::yystos_[] =
   {
-       0,     3,    18,    21,    24,    28,    32,    35,    19,    20,
-      22,     3,     4,     8,     9,    12,    33,    34,    34,     0,
-      20,    33,    34,    34,     5,     6,     7,    10,    11,    13,
-      14,    25,    29,    35,    20,    23,    33,    33,    33,    33,
-      33,    34,    34,    35,    35,    20,    26,    30,    35,    20,
-      27,    20
+       0,     3,    15,    18,    21,    24,    28,    32,    35,    19,
+      35,    20,    22,     3,     4,     8,     9,    12,    33,    34,
+      34,     0,    20,    33,    16,    34,    34,     5,     6,     7,
+      10,    11,    13,    14,    25,    29,    35,    20,    35,    23,
+      33,    33,    33,    33,    33,    34,    34,    35,    35,    17,
+      20,    26,    30,    35,    20,    27,    20
   };
 
   const signed char
    Parser ::yyr1_[] =
   {
-       0,    31,    32,    32,    33,    33,    33,    33,    33,    34,
-      34,    34,    34,    34,    34,    34,    35,    35,    35,    35,
-      35,    35
+       0,    31,    32,    32,    32,    33,    33,    33,    33,    33,
+      34,    34,    34,    34,    34,    34,    34,    35,    35,    35,
+      35,    35,    35
   };
 
   const signed char
    Parser ::yyr2_[] =
   {
-       0,     2,     0,     1,     1,     1,     3,     3,     3,     1,
-       1,     3,     3,     2,     3,     3,     2,     4,     3,     5,
-       8,     6
+       0,     2,     0,     1,     5,     1,     1,     3,     3,     3,
+       1,     1,     3,     3,     2,     3,     3,     2,     4,     3,
+       5,     8,     6
   };
 
 
@@ -1181,9 +1192,9 @@ namespace  tzzht  {
   const unsigned char
    Parser ::yyrline_[] =
   {
-       0,   109,   109,   110,   118,   119,   120,   121,   122,   125,
-     126,   127,   128,   129,   130,   131,   134,   135,   138,   139,
-     140,   141
+       0,   109,   109,   110,   115,   123,   124,   125,   126,   127,
+     130,   131,   132,   133,   134,   135,   136,   139,   140,   142,
+     143,   144,   145
   };
 
   // Print the state stack on the debug stream.
@@ -1218,9 +1229,9 @@ namespace  tzzht  {
 
 #line 9 "parser.y"
 } //  tzzht 
-#line 1222 "parser.cpp"
+#line 1233 "parser.cpp"
 
-#line 143 "parser.y"
+#line 147 "parser.y"
 
 
 /* Parser实现错误处理接口 */
