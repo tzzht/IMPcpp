@@ -19,6 +19,4 @@ $ 将IMP程序复制进去
 
 $ 输入 ctrl+D
 
-eg.png
-
 
